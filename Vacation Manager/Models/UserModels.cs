@@ -11,7 +11,19 @@ namespace Vacation_Manager.Models
 
         [Required]
         public string Password { get; set; }
-        //TODO:...
+
+
+        public string Name { get; set; }
+
+
+        public string LastName { get; set; }
+
+
+        public string Role { get; set; }
+
+
+        public string Team { get; set; }
+
 
         //Default конструктор 
         public UserModels()
@@ -19,13 +31,21 @@ namespace Vacation_Manager.Models
             UserId = 0;
             UserName = " ";
             Password= " ";
+            Name = " ";
+            LastName = " ";
+            Role = "Unsigned";
+            Team = " ";
         }
 
-        public UserModels(int userId, string userName, string password)
+        public UserModels(int userId, string userName, string password, string name, string lastName, string role, string team)
         {
             UserId = userId;
             UserName = userName;
             Password = password;
+            Name = name;
+            LastName = lastName;
+            Role = role;
+            Team = team;
         }
     }
 }
