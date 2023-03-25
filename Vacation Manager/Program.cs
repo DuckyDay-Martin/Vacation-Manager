@@ -84,6 +84,26 @@ namespace Vacation_Manager
                 }
 
             }
+
+            //Seed-ване на тестов Unsigned акаунт
+            using (var scope = app.Services.CreateScope())
+            {
+                var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+
+                string name = "PetarMalinov";
+                string password = "Test1234,1";
+
+                if (await userManager.FindByNameAsync(name) == null)
+                {//Проверява дали акаунта съществува 
+                    var user = new IdentityUser();
+                    user.UserName = name;
+
+                    await userManager.CreateAsync(user, password);
+
+                    await userManager.AddToRoleAsync(user, "Unsigned");
+                }
+
+            }
             app.Run();
         
         }

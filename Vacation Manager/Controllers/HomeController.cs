@@ -5,7 +5,7 @@ using Vacation_Manager.Models;
 
 namespace Vacation_Manager.Controllers
 {
-    [Authorize]
+    
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
