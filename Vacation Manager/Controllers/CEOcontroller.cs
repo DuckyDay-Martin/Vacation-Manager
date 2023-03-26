@@ -6,13 +6,8 @@ namespace Vacation_Manager.Controllers
     
     public class CEOcontroller : Controller
     {
-        //private readonly ILogger<CEOcontroller> _logger;
-
-        //public CEOcontroller(ILogger<CEOcontroller> logger)
-        //{
-        //    _logger = logger;
-        //}
-        [Authorize(Roles = "CEO")]
+        
+        [Authorize(Roles="CEO")]
         public IActionResult Index()
         {
             return View();
@@ -20,7 +15,7 @@ namespace Vacation_Manager.Controllers
 
         
         //CEO - View панел за управление
-        [Authorize(Roles = "CEO")]
+        [Authorize(Policy = "CEO")]
         public ActionResult CEO_ControlPanel() 
         {
             return View();

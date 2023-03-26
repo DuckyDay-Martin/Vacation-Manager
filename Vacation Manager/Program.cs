@@ -22,7 +22,16 @@ namespace Vacation_Manager
 
         builder.Services.AddControllersWithViews();
 
-        var app = builder.Build();
+
+            //РЎСЉР·РґР°РІР°Рј С„СѓРЅРєС†РёСЏ Authorization
+            #region Authorization
+
+            AddAuthorizationPolicies(builder.Services);
+
+            #endregion
+
+
+            var app = builder.Build();
 
         // Configure the HTTP request pipeline.
         if (app.Environment.IsDevelopment())
@@ -49,14 +58,14 @@ namespace Vacation_Manager
         pattern: "{controller=Home}/{action=Index}/{id?}");
         app.MapRazorPages();
 
-            //Seed-ване на ролите 
+            //Seed-РІР°РЅРµ РЅР° СЂРѕР»РёС‚Рµ 
             using (var scope = app.Services.CreateScope())
             {
                 var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
                 var roles = new[] { "CEO", "Developer", "Team Lead", "Unsigned" };
 
                 foreach (var role in roles)
-                {//Ако ролята(obj) не съществува създай таква
+                {//Р°РєРѕ СЂРѕР»СЏС‚Р°(obj) РЅРµ СЃСЉС‰РµСЃС‚РІСѓРІР° - СЃСЉР·РґР°Р№
                     if (!await roleManager.RoleExistsAsync(role))
                         await roleManager.CreateAsync(new IdentityRole(role));
                     {
@@ -65,7 +74,7 @@ namespace Vacation_Manager
                 }
             }
 
-            //Seed-ване на CEO акаунт
+            //Seed-РІР°РЅРµ РЅР° CEO СЂРѕР»СЏС‚Р°
             using (var scope = app.Services.CreateScope())
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
@@ -74,7 +83,7 @@ namespace Vacation_Manager
                 string password = "Test1234,";
 
                 if (await userManager.FindByNameAsync(name) == null)
-                {//Проверява дали акаунта съществува 
+                {//РџСЂРѕРІРµСЂСЏРІР° РґР°Р»Рё СЃСЉС‰РµСЃС‚РІСѓРІР° С‚Р°РєСЉРІ user
                     var user = new IdentityUser();
                     user.UserName = name;
 
@@ -85,30 +94,37 @@ namespace Vacation_Manager
 
             }
 
-            //Seed-ване на тестов Unsigned акаунт
             using (var scope = app.Services.CreateScope())
             {
                 var userManager = scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
 
-                string name = "PetarMalinov";
-                string password = "Test1234,1";
+                string name = "PetarTenev";
+                string password = "TTest1234,";
 
                 if (await userManager.FindByNameAsync(name) == null)
-                {//Проверява дали акаунта съществува 
+                {//РџСЂРѕРІРµСЂСЏРІР° РґР°Р»Рё СЃСЉС‰РµСЃС‚РІСѓРІР° С‚Р°РєСЉРІ user
                     var user = new IdentityUser();
                     user.UserName = name;
 
                     await userManager.CreateAsync(user, password);
 
-                    await userManager.AddToRoleAsync(user, "Unsigned");
+                    await userManager.AddToRoleAsync(user, "Developer");
                 }
 
             }
+
             app.Run();
         
         }
-        
 
+        //РРјРїР»РµРјРµРЅС‚РёСЂР°Рј С„СѓРЅРєС†РёСЏС‚Р° Authorization(Р·Р° PolicyBasedAuthorization )
+        static void AddAuthorizationPolicies(IServiceCollection services)
+        {
+            services.AddAuthorization(options =>//Р”РѕР±Р°РІСЏРј Authorization 
+            {
+                options.AddPolicy("Developer", policy => policy.RequireClaim("DeveloperNumber"));//Р”РѕР±Р°РІСЏРј Policy СЃ РёРјРµ DeveloperNumber
+            });                                                                                        //Р РІ С‚РѕРІР° Policy С‰Рµ РёР·РёСЃРєРІР°Рј Claim Developer          
+        }
     }
 
 

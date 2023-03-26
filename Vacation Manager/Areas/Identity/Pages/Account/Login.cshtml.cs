@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using System.Security.Claims;
 
 namespace Vacation_Manager.Areas.Identity.Pages.Account
 {
@@ -110,7 +111,34 @@ namespace Vacation_Manager.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+
+                // Check ако името съществува в базата данни
+                var user = await _signInManager.UserManager.FindByNameAsync(Input.Username);
+
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt. ");
+                    return Page();
+
+                }
+
+                // Check ако паролата съвпада
+                var result = await _signInManager.CheckPasswordSignInAsync(user, Input.Password, false);
+               
+
+                //Ако всичко е наред влизаме
+                if (result.Succeeded)
+                {//PolicyBasedAuthorization  Claims
+                    var claims = new Claim[]
+                    {
+                        new Claim("amr", "pwd"),
+                        new Claim("CEO", "1")
+                    };
+
+                    await _signInManager.SignInWithClaimsAsync(user, Input.RememberMe, claims);
+                }
+
+
                 if (result.Succeeded)
                 {               
                     _logger.LogInformation("User logged in.");
