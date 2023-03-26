@@ -108,7 +108,7 @@ namespace Vacation_Manager
 
                     await userManager.CreateAsync(user, password);
 
-                    await userManager.AddToRoleAsync(user, "Developer");
+                    await userManager.AddToRoleAsync(user, "Team Lead");
                 }
 
             }
@@ -120,11 +120,23 @@ namespace Vacation_Manager
         //Имплементирам функцията Authorization(за PolicyBasedAuthorization )
         static void AddAuthorizationPolicies(IServiceCollection services)
         {
+            services.AddAuthorization(options => 
+            {
+                options.AddPolicy("CEO", policy => policy.RequireClaim("CEO"));//Добавям Policy с име CEO
+            });                                                                //И в това Policy ще изисквам Claim CEO
+
             services.AddAuthorization(options =>//Добавям Authorization 
             {
                 options.AddPolicy("Developer", policy => policy.RequireClaim("DeveloperNumber"));//Добавям Policy с име DeveloperNumber
-            });                                                                                        //И в това Policy ще изисквам Claim Developer          
+            });                                                                                  //И в това Policy ще изисквам Claim DeveloperNumber          
+
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy("Team Lead", policy => policy.RequireClaim("TeamLeadNum"));//Добавям Policy с име Team Lead
+            });                                                                //И в това Policy ще изисквам Claim TeamLeadNum
         }
+
+        
     }
 
 

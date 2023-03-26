@@ -103,7 +103,7 @@ namespace Vacation_Manager.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
-            returnUrl ??= Url.Content("~/CEO/CEO_ControlPanel");
+            returnUrl ??= Url.Content("~/");
 
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
 
@@ -128,11 +128,13 @@ namespace Vacation_Manager.Areas.Identity.Pages.Account
 
                 //Ако всичко е наред влизаме
                 if (result.Succeeded)
-                {//PolicyBasedAuthorization  Claims
+                {//PolicyBasedAuthorization Claims
                     var claims = new Claim[]
-                    {
+                    {//Claim-ове за ролите
                         new Claim("amr", "pwd"),
-                        new Claim("CEO", "1")
+                        new Claim("CEO", "1"),
+                        new Claim("DeveloperNum", "2"),
+                        new Claim("TeamLeadNum", "3")
                     };
 
                     await _signInManager.SignInWithClaimsAsync(user, Input.RememberMe, claims);

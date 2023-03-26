@@ -3,11 +3,11 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Vacation_Manager.Controllers
 {
-    
+    [Authorize(Policy = "Team Lead")]
     public class CEOcontroller : Controller
     {
         
-        [Authorize(Roles="CEO")]
+        //[Authorize(Roles="CEO")]
         public IActionResult Index()
         {
             return View();
@@ -15,7 +15,7 @@ namespace Vacation_Manager.Controllers
 
         
         //CEO - View панел за управление
-        [Authorize(Policy = "CEO")]
+       // [Authorize(Policy = "CEO")]
         public ActionResult CEO_ControlPanel() 
         {
             return View();
