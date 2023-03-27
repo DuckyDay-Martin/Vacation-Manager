@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vacation_Manager.Data;
+using Vacation_Manager.GlobalConstants;
+
 namespace Vacation_Manager
 { 
     public class Program
@@ -122,18 +124,10 @@ namespace Vacation_Manager
         {
             services.AddAuthorization(options => 
             {
-                options.AddPolicy("CEO", policy => policy.RequireClaim("CEO"));//Добавям Policy с име CEO
-            });                                                                //И в това Policy ще изисквам Claim CEO
-
-            services.AddAuthorization(options =>//Добавям Authorization 
-            {
-                options.AddPolicy("Developer", policy => policy.RequireClaim("DeveloperNumber"));//Добавям Policy с име DeveloperNumber
-            });                                                                                  //И в това Policy ще изисквам Claim DeveloperNumber          
-
-            services.AddAuthorization(options =>
-            {
-                options.AddPolicy("Team Lead", policy => policy.RequireClaim("TeamLeadNum"));//Добавям Policy с име Team Lead
-            });                                                                //И в това Policy ще изисквам Claim TeamLeadNum
+                options.AddPolicy(RoleConstants.Policies.RequireCEO, policy => policy.RequireRole(RoleConstants.Roles.CEO));//Добавям Policy с име CEO
+                options.AddPolicy(RoleConstants.Policies.RequireDeveloper, policy => policy.RequireRole(RoleConstants.Roles.Developer));//Добавям Policy с име Developer
+                options.AddPolicy(RoleConstants.Policies.RequireTeamLead, policy => policy.RequireRole(RoleConstants.Roles.TeamLead));//Добавям Policy с име TeamLead
+            });                                                                                                                       
         }
 
         

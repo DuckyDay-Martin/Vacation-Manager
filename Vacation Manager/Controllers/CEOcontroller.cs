@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Vacation_Manager.GlobalConstants;
 
 namespace Vacation_Manager.Controllers
 {
-    [Authorize(Policy = "Team Lead")]
+    [Authorize(Policy = RoleConstants.Policies.RequireCEO)]
     public class CEOcontroller : Controller
     {
         
