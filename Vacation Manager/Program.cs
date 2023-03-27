@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Vacation_Manager.Data;
 using Vacation_Manager.GlobalConstants;
+using Vacation_Manager.GlobalConstants.Repositories;
+using Vacation_Manager.Repositories;
 
 namespace Vacation_Manager
 { 
@@ -31,7 +33,7 @@ namespace Vacation_Manager
             AddAuthorizationPolicies(builder.Services);
 
             #endregion
-
+            AddScoped();
 
             var app = builder.Build();
 
@@ -115,9 +117,19 @@ namespace Vacation_Manager
 
             }
 
+            void AddScoped()
+            { 
+                builder.Services.AddScoped<IUserRepository, UserRepository>();
+                builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+            }
+
+
             app.Run();
         
         }
+
+
+       
 
         //Имплементирам функцията Authorization(за PolicyBasedAuthorization )
         static void AddAuthorizationPolicies(IServiceCollection services)
@@ -129,12 +141,11 @@ namespace Vacation_Manager
                 options.AddPolicy(RoleConstants.Policies.RequireTeamLead, policy => policy.RequireRole(RoleConstants.Roles.TeamLead));//Добавям Policy с име TeamLead
             });                                                                                                                       
         }
-
-        
+          
     }
 
 
-
+    
 }
 
 

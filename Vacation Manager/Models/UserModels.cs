@@ -4,7 +4,7 @@ namespace Vacation_Manager.Models
 {
     public class UserModels
     {
-        int UserId { get; set; }
+        public int UserId { get; set; }
 
         [Required]
         string UserName { get; set; }

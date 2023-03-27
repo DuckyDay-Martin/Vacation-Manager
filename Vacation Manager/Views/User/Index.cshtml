@@ -1,0 +1,43 @@
+﻿@using Microsoft.AspNetCore.Identity;
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+
+@*@model ICollection<Vacation_Manager.Areas.Identity.Data.ApplicationUser>*@
+
+@model ICollection<Vacation_Manager.Areas.Identity.Data.ApplicationUser>
+
+<div class="text-center">
+    <h1 class="display-4">All Users</h1>
+    @if (@Model != null && Model.Any())//Ако имаме някакви item-и, изкарваме табличка
+    {
+        <table class="table">
+            <thread>
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">FirsName</th>
+                    <th scope="col">LastName</th>
+                    <th scope="col">Edit</th>
+                </tr>
+            </thread>
+            <tbody>
+                @foreach (var user in Model)//Обхождане през потребителите
+                {
+                    <tr>
+                        <th scope="row">@user.Id</th>
+                        <td>@user.FirstName</td>
+                        <td>@user.LastName</td>
+                        <td>
+                            <a aps-controller="User" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+
+</div>
+
+<div class="text-center"></div>

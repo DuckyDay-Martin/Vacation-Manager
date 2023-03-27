@@ -8,6 +8,8 @@
 
         string ProjectWorkingOn { get; set; }
 
+        public List<UserModels> Developers { get; set; }
+
         string TeamLead { get; set; }
     }
 }
