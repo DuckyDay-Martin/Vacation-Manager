@@ -8,7 +8,7 @@ using Vacation_Manager.Areas.Identity.Data;
 
 namespace Vacation_Manager.Controllers
 {
-    [Authorize(Policy = GlobalConstants.RoleConstants.Policies.RequireDeveloper)]
+    //[Authorize(Policy = GlobalConstants.RoleConstants.Policies.RequireDeveloper)]
     public class UserController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -24,9 +24,9 @@ namespace Vacation_Manager.Controllers
             return View(users);
         }
 
-        public IActionResult Edit()
+        public IActionResult Edit(string id)
         {
-            return View();
+            return View(id);
         }
     }
 }

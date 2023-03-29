@@ -18,7 +18,7 @@ namespace Vacation_Manager.Repositories
 
         public ICollection<ApplicationUser> GetUsers()//Repository-то връща всички потребители
         {
-            return _context.Users.ToList();
+            return (ICollection<ApplicationUser>)_context.Users.ToList();
         }
     }
 }

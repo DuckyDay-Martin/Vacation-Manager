@@ -30,7 +30,8 @@
                         <td>@user.FirstName</td>
                         <td>@user.LastName</td>
                         <td>
-                            <a aps-controller="User" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                            <a asp-controller="User" asp-action="Edit" asp-route-id="@user.Id">Edit</a>
+                            <a asp-controller="User" asp-action="Delete" asp-route-id="@user.Id">Delete</a>
                         </td>
                     </tr>
                 }
